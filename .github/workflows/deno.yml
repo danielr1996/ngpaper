@@ -21,7 +21,7 @@ jobs:
         with:
           deno-version: v1.x
       - name: Compile
-        run: deno compile --target ${{ matrix.target }} --output ngpaper-${{ matrix.target }} client/index.ts
+        run: deno compile -A --target ${{ matrix.target }} --output ngpaper-${{ matrix.target }} client/index.ts
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
