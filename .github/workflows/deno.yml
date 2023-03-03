@@ -2,12 +2,8 @@ name: Deno
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-permissions:
-  contents: read
-
+    tags:
+      - "v*"
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -23,3 +19,9 @@ jobs:
           deno-version: v1.x
       - name: Compile
         run: deno compile --target ${{ matrix.target }} --output ngpaper-${{ matrix.target }} client/main.ts
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          files: |
+            ngpaper-*
