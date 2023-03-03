@@ -10,7 +10,16 @@ await new Command()
   .option('-P, --port <port:number>','port on the ssh host to expose',{default: 0})
   .option('-d, --debug <debug:boolean>','port on the ssh host to expose',{default: false})
   .action(async ({user,host,port,debug},localPort)=>{
-        const assignedPort = await startTunnel({remote:{host,port},local: {host: 'localhost',port: localPort},user,debug});
+        const assignedPort = await startTunnel({
+            remote:{
+                host: host as string,
+                port: port as number},
+            local: {
+                host: 'localhost',
+                port: (localPort as unknown) as number},
+            user: user as string,
+            debug: debug as boolean,
+        });
         console.log(`📜 started forwarding for 🔗 http://${host}:${assignedPort} => localhost:${localPort}`,);
     })
   .parse(Deno.args);
